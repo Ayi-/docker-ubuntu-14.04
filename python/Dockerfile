@@ -28,13 +28,8 @@ RUN apt-get install -y wget \
 RUN \
     adduser aiiyi --gecos "" --disabled-password && \
     echo "aiiyi:000000" | sudo chpasswd && \
-    echo "root:000000" | sudo chpasswd && \
-    
-    # 创建nginx用户
-    groupadd nginx  && \ 
-    useradd -g nginx -s /sbin/nologin nginx  && \
-    # 创建nginx日志目录
-    mkdir -p /var/nginx/log
+    echo "root:000000" | sudo chpasswd
+
 
 # 切换用户
 USER aiiyi
@@ -71,14 +66,11 @@ RUN \
     pyenv install 2.7.12  && \
     pyenv rehash  && \
 
-    # 创建virtualenv
-    pyenv virtualenv 2.7.12 blog  && \
-
     # 修改pip源
     mkdir ~/.pip && \
     echo "[global]" > ~/.pip/pip.conf  &&\
     echo "trusted-host = mirrors.aliyun.com" >> ~/.pip/pip.conf  && \
-    echo "index-url = http://mirrors.aliyun.com/pypi/simple/" >> ~/.pip/pip.conf
-   
-    # 安装nginx 1.10.2
-    # curl -L http://nginx.org/download/nginx-1.10.2.tar.gz | tar xz --strip=1
+    echo "index-url = http://mirrors.aliyun.com/pypi/simple/" >> ~/.pip/pip.conf && \
+    # 创建virtualenv
+    pyenv virtualenv 2.7.12 blog 
+
